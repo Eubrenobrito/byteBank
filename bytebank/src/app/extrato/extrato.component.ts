@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import {TransferenciaService} from "../services/transferencia.service";
 
 
 @Component({
@@ -7,13 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./extrato.component.scss']
 })
 export class ExtratoComponent implements OnInit {
+  transferencias: any [];
 
-
-  @Input() transferencias: any [];
-  //usar o ngFor para exibir a lista
-
-  constructor() { }
+  constructor(private service: TransferenciaService) { }
 
   ngOnInit(): void {
+  //  quando for inicializado o valor de service transferencias vai ser atribuido ao array
+    this.transferencias = this.service.transferencias;
   }
 }
