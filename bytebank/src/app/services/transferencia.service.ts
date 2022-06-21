@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 //decorator injectablo me diz que eu posso invocar uma instancia dessa class atravez do construtor
 //vai me permitir injetar uma instancia valida desse service
 @Injectable({
-  //
   providedIn: 'root'
 })
 export class TransferenciaService {

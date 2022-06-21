@@ -12,8 +12,9 @@ export class ExtratoComponent implements OnInit {
 
   constructor(private service: TransferenciaService) { }
 
+  //pesquisar!
   ngOnInit(): void {
-  //  quando for inicializado o valor de service transferencias vai ser atribuido ao array
+  //  quando for inicializado o valor do service transferencias vai ser atribuido ao array
     this.transferencias = this.service.transferencias;
   }
 }
