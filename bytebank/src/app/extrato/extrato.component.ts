@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {TransferenciaService} from "../services/transferencia.service";
+import {Transferencias} from "../services/transferencia.service";
+import {transformSync} from "@angular/compiler-cli/linker/babel/src/babel_core";
 
 
 @Component({
@@ -10,11 +11,14 @@ import {TransferenciaService} from "../services/transferencia.service";
 export class ExtratoComponent implements OnInit {
   transferencias: any [];
 
-  constructor(private service: TransferenciaService) { }
+  constructor(private service: Transferencias) { }
 
-  //pesquisar!
   ngOnInit(): void {
-  //  quando for inicializado o valor do service transferencias vai ser atribuido ao array
-    this.transferencias = this.service.transferencias;
+  // //  quando for inicializado o valor do service transferencias vai ser atribuido ao array
+  //   this.transferencias = this.service.transferencias;
+    this.service.todas().subscribe((transferencias: Transferencias[]) => {
+      console.table(transferencias);
+      this.transferencias = transferencias;
+    })
   }
 }
