@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class Transferencias {
+export class TransferenciaService {
 
     private listaTransferencia: any [];
     private url = 'http://localhost:3000/transferencias';
@@ -23,16 +23,16 @@ export class Transferencias {
   }
 
   //REQUISIÇÃO!!
-  //metodo que vai me retornar todas as transferencias
-  todas(): Observable<Transferencias[]>{
-    return this.httpClient.get<Transferencias[]>(this.url)
+  //metodo que vai me retornar um observable que é do tipo array de transferencias
+  todas(): Observable<TransferenciaService[]>{
+    return this.httpClient.get<TransferenciaService[]>(this.url);
   }
 
-  adicionar(transferencia: any){
+  adicionar(transferencia: TransferenciaService):Observable<TransferenciaService>{
     this.hidratar(transferencia);
-    //ao transferir, vou passar tudo que veio do $event e a data para a propriedade trasnferencia
-    this.transferencias.push(transferencia)
-    //  transferencia vai adicionar o valor que vai vir do $event
+  //  Requisição do tipo POST
+  //  os dados da requisição do tipo post vai no corpo da requisição
+    return this.httpClient.post<TransferenciaService>(this.url, transferencia)
   }
 
   private hidratar(transferencia: any){

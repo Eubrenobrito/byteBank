@@ -2,9 +2,9 @@ declare module Transferencia {
 
   export interface Transferencia {
     //adicionar 2 propriedades como opcional
-    id?: number;
-    valor: number;
-    destino: string;
+    id?: number | string;
+    valor: number ;
+    destino: string| number;
     data?: Date;
   }
 

@@ -1,4 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core'
+import {HttpClient} from "@angular/common/http";
+import {TransferenciaService} from "../services/transferencia.service";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 
 //decorator
@@ -9,26 +12,34 @@ import {Component, EventEmitter, Output} from '@angular/core'
 })
 export class NovaTransferenciaComponent {
   //METADADO
-  @Output() vaiEmitir = new EventEmitter<any>();
+  @Output() aoTransferir = new EventEmitter<any>();
 
    valor: number;
    destino: number;
 
+   constructor(private Service:TransferenciaService) {
+
+   }
+
+  // @ts-ignore
   transferir(){
-    const valorEmitir = {
+    const valorEmitir= {
                           valor: this.valor,
                           destino: this.destino
-    }
-  this.vaiEmitir.emit(valorEmitir);
-  //  apos emitir os dados, dispara metodo limparCampos
-    this.limparCampos();
+    };
+    this.Service.adicionar(this.Service).subscribe((resultado) => {
+      console.log(resultado);
+      this.limparCampos();
+      },
+      (error) => console.error(error)
+      );
   }
 
-  limparCampos(){
+  limparCampos() {
     this.valor = 0;
     this.destino = 0;
+    };
   }
-}
 
 //Os bindings em angular são as formas de como a View interage com Model/(Compoment). Interpolation ou interpolação em
 // português é o tipo mais comum de binding, ele é utilizado para transportar o valor de propriedades e retorno de
