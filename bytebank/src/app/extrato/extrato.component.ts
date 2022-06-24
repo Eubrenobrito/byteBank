@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {TransferenciaService} from "../services/transferencia.service";
 import {transformSync} from "@angular/compiler-cli/linker/babel/src/babel_core";
+import {Transferencia} from "../models/transferencia.model";
 
 
 @Component({
@@ -18,13 +19,11 @@ export class ExtratoComponent implements OnInit {
   // //  quando for inicializado o valor do service transferencias vai ser atribuido ao array
   //   this.transferencias = this.service.transferencias;
     this.service.todas().subscribe({
-        next: (transferencias: TransferenciaService[]) => {
+      next: (transferencias: Transferencia[]) => {
           console.log("fase next")
           this.transferencias = transferencias;
           },
-
       error: (error) => console.error("msg err", error),
-
       //se terminou a notificação dispara o complete
       complete: () => {
           console.log("o observable acabou seu trabalho")

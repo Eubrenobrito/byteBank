@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {Transferencia} from "../models/transferencia.model";
 
 
 //decorator injectablo me diz que eu posso invocar uma instancia dessa class atravez do construtor
@@ -24,15 +25,15 @@ export class TransferenciaService {
 
   //REQUISIÇÃO!!
   //metodo que vai me retornar um observable que é do tipo array de transferencias
-  todas(): Observable<TransferenciaService[]>{
-    return this.httpClient.get<TransferenciaService[]>(this.url);
+  todas(): Observable<Transferencia[]>{
+    return this.httpClient.get<Transferencia[]>(this.url);
   }
 
-  adicionar(transferencia: TransferenciaService):Observable<TransferenciaService>{
+  adicionar(transferencia: Transferencia):Observable<Transferencia>{
     this.hidratar(transferencia);
   //  Requisição do tipo POST
   //  os dados da requisição do tipo post vai no corpo da requisição
-    return this.httpClient.post<TransferenciaService>(this.url, transferencia)
+    return this.httpClient.post<Transferencia>(this.url, transferencia)
   }
 
   private hidratar(transferencia: any){

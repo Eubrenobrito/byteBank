@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core'
-import {HttpClient} from "@angular/common/http";
 import {TransferenciaService} from "../services/transferencia.service";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+import {Transferencia} from "../models/transferencia.model";
 
 
 //decorator
@@ -21,19 +20,26 @@ export class NovaTransferenciaComponent {
 
    }
 
-  // @ts-ignore
+
   transferir(){
-    const valorEmitir= {
-                          valor: this.valor,
-                          destino: this.destino
-    };
-    this.Service.adicionar(this.Service).subscribe((resultado) => {
-      console.log(resultado);
-      this.limparCampos();
+    const valorEmitir : Transferencia = {valor: this.valor, destino:this.destino};
+
+    this.Service.adicionar(valorEmitir).subscribe({
+      next: (resultado) => {
+        console.log(resultado);
+        this.limparCampos();
       },
-      (error) => console.error(error)
-      );
+
+      error: (error) => console.error("msg err", error),
+
+      complete: () => {
+        console.log("o observable acabou seu trabalho")
+      }
+    });
   }
+
+
+
 
   limparCampos() {
     this.valor = 0;
