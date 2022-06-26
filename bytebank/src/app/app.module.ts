@@ -9,6 +9,9 @@ import {registerLocaleData} from "@angular/common";
 import localePt from '@angular/common/locales/pt';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {AppRoutingModule} from "./app.routing.module";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon"
 
 registerLocaleData(localePt, 'pt');
 
@@ -23,7 +26,10 @@ registerLocaleData(localePt, 'pt');
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [
     {

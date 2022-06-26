@@ -1,3 +1,20 @@
+
+
+<section  class="titulo" *ngIf="mostrarForm"></section>
+<div *ngIf="!!mostrarForm">
+  <div routerLinkActive="ativo">
+  <label class="form-field__label" for="valor">Valor</label>
+  <input class="form-field__input" autocomplete="off" id="valor" type="number" name="valor">
+  </div>
+  <div class="form-field">
+    <label class="form-field__label" for="destino">Destino</label>
+    <input class="form-field__input" autocomplete="off" id="destino" type="text" name="destino">
+  </div>
+  <td><button >atualizar</button></td>
+</div>
+
+
+
 <section class="container">
   <h2>Transferências</h2>
 <table class="tabela">
@@ -8,19 +25,22 @@
     </thead>
 <!--    <tbody *ngIf="!!transferencias; else quantoListaVazia">-->
     <tbody *ngIf="transferencias?.length; else quandoListaVazia">
-  <!--  Ngfor é uma diretiva Angular que permite percorrer um array, ou qualquer objeto iterável,
+  <!--  Ngfor é uma diretiva que permite percorrer um array, ou qualquer objeto iterável,
         e exibir cada item do array como elemento na tela. -->
     <!--teremos uma TRANSFERENCIA dentro de uma coleção de TRANSFERENCIAS-->
-        <tr *ngFor="let intem of transferencias" class="tabela__linha">
-          <td class="tabela__conteudo"> {{intem.data | date:"short"}}</td>
-          <td class="tabela__conteudo"> {{intem.valor | currency}}</td>
-          <td class="tabela__conteudo"> {{intem.destino}}</td>
+        <tr *ngFor="let item of transferencias" class="tabela__linha">
+          <td class="tabela__conteudo"> {{item.data | date:"short"}}</td>
+          <td class="tabela__conteudo"> {{item.valor | currency}}
+          <td class="tabela__conteudo"> {{item.destino}}</td>
+          <td><button mat-icon-button (click)="onMostrarForm()"><mat-icon>build</mat-icon></button></td>
+          <td><button mat-icon-button (click)="delete(item)"><mat-icon>delete</mat-icon></button></td>
         </tr>
     </tbody>
 </table>
 <ng-template #quandoListaVazia>
-  <p>Nenhum dado cadastrado</p>
+  <p >Nenhum dado cadastrado</p>
 </ng-template>
 </section>
+
 
 

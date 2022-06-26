@@ -9,7 +9,6 @@ export const routes: Routes = [
   {path: 'extrato', component: ExtratoComponent},
   {path: 'nova-transferencia', component: NovaTransferenciaComponent},
 //  path: 'nome do path', vai corresponder ao "nome do componente"
-
   //se eu acessar um caminho vazio, eu redireciono: redirectTo :
   {path: '', redirectTo: 'extrato', pathMatch: 'full'}
 ]

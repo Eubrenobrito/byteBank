@@ -28,12 +28,18 @@ export class TransferenciaService {
   todas(): Observable<Transferencia[]>{
     return this.httpClient.get<Transferencia[]>(this.url);
   }
-
   adicionar(transferencia: Transferencia):Observable<Transferencia>{
     this.hidratar(transferencia);
   //  Requisição do tipo POST
   //  os dados da requisição do tipo post vai no corpo da requisição
     return this.httpClient.post<Transferencia>(this.url, transferencia)
+  }
+  onEditar(transferencia: Transferencia):Observable<Transferencia>{
+    return  this.httpClient.put<Transferencia>(`${this.url}/${transferencia.id}`, transferencia)
+  }
+
+  deletar(transferencia: Transferencia):Observable<Transferencia>{
+    return this.httpClient.delete<Transferencia>(`${this.url}/${transferencia.id}`)
   }
 
   private hidratar(transferencia: any){
