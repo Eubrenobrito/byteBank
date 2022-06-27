@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TransferenciaService} from "../services/transferencia.service";
 import {transformSync} from "@angular/compiler-cli/linker/babel/src/babel_core";
 import {Transferencia} from "../models/transferencia.model";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -12,27 +13,26 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 })
 export class ExtratoComponent implements OnInit {
   transferencias: any [];
-  mostrarForm: boolean = false;
+  estaEditando: boolean = false;
 
-  constructor(private service: TransferenciaService) { }
+  constructor(private service: TransferenciaService, private router: Router) { }
 
   ngOnInit(): void {
     this.consultar();
   }
-  onMostrarForm(){
-    this.mostrarForm = !this.mostrarForm;
-  }
-  editar(item:Transferencia){
-  this.service.onEditar(item).subscribe(
-    {
-      next:() => {
-        console.log("sucesso editar")
-      },
-      error: (error) => console.error("msg err", error)
-    })
+  // @Input() valorFilho: any ;
+  // @Input() destinoFilho: any;
 
+  public transferenciaClicada: Transferencia;
+
+  aoEditar(item:Transferencia){
+    // console.log( dados)
+    //vai receber o item/objeto
+    this.transferenciaClicada = item;
+    this.estaEditando = true;
   }
 
+  //DELETAR
   delete(item:Transferencia) {
     this.service.deletar(item).subscribe({
             next:() => {
@@ -42,7 +42,7 @@ export class ExtratoComponent implements OnInit {
     });
     this.consultar();
   }
-
+  //GET
   consultar(){
     // //  quando for inicializado o valor do service transferencias vai ser atribuido ao array
     //   this.transferencias = this.service.transferencias;
@@ -57,5 +57,10 @@ export class ExtratoComponent implements OnInit {
         console.log("o observable acabou seu trabalho(GET)")
       }
     });
+  }
+
+  transferenciaCompleta() {
+    this.consultar();
+    this.estaEditando = false;
   }
 }

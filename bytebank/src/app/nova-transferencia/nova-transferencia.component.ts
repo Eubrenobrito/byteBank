@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core'
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core'
 import {TransferenciaService} from "../services/transferencia.service";
 import {Transferencia} from "../models/transferencia.model";
 import {Router} from "@angular/router";
@@ -7,34 +7,58 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-nova-transferencia',
   templateUrl:'nova-transferencia.component.html',
-  styleUrls:['./nova-transferencia.component.scss']
+  styleUrls:['./nova-transferencia.component.scss'],
+  // vai chamar o onChange
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class NovaTransferenciaComponent {
+
+  //find no array
+  //
+
   //METADADO
   @Output() aoTransferir = new EventEmitter<any>();
+  @Output() valor: number ;
+  @Output() destino: number;
+  public idTransferencia:number;
 
-   valor: number;
-   destino: number;
+  //set ta levando valor para dentro da funcao(transforma em object acess)(
+  @Input() set editData(transferenciaClicada:Transferencia) {
+    if ( transferenciaClicada != null){
+      this.valor=transferenciaClicada.valor
+      this.destino=transferenciaClicada.destino
+      //cast
+      this.idTransferencia = Number(transferenciaClicada.id);
+    }
+  };
 
-   constructor(private Service:TransferenciaService, private router: Router) {
+   //engrenagem: me dar o objto
+   //
+
+   constructor(private service:TransferenciaService, private router: Router) {
    }
 
-  transferir(){
+   transferir(){
     const valorEmitir : Transferencia = {valor: this.valor, destino:this.destino};
+    if (this.idTransferencia){
+      this.service.editar(valorEmitir, this.idTransferencia)
+        .subscribe(
+          () => this.aoTransferir.emit()
+        )
+    }else {
+      this.service.adicionar(valorEmitir).subscribe({
+        next: (resultado) => {
+          console.log(resultado);
 
-    this.Service.adicionar(valorEmitir).subscribe({
-      next: (resultado) => {
-        console.log(resultado);
-        this.limparCampos();
-        this.router.navigateByUrl('extrato', )
-      },
-
-      error: (error) => console.error("msg err", error),
-
-      complete: () => {
-        console.log("o observable acabou seu trabalho")
-      }
-    });
+          this.limparCampos();
+          this.router.navigateByUrl('extrato',)
+        },
+        error: (error) => console.error("Erro no adicionar(get)", error),
+        complete: () => {
+          console.log("o observable acabou seu trabalho")
+        }
+      });
+    }
   }
 
   limparCampos() {

@@ -6,7 +6,7 @@ export interface Transferencia {
     //adicionar 2 propriedades como opcional
     id?: number;
     valor: number ;
-    destino: string| number;
+    destino: number;
     data?: Date;
   }
 

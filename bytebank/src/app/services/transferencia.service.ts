@@ -19,25 +19,24 @@ export class TransferenciaService {
     this.listaTransferencia = [];
   }
 
-  get transferencias(){
-    return this.listaTransferencia
-  }
 
   //REQUISIÇÃO!!
   //metodo que vai me retornar um observable que é do tipo array de transferencias
   todas(): Observable<Transferencia[]>{
     return this.httpClient.get<Transferencia[]>(this.url);
   }
+  //POST
+  //  os dados da requisição do tipo post vai no corpo da requisição
   adicionar(transferencia: Transferencia):Observable<Transferencia>{
     this.hidratar(transferencia);
-  //  Requisição do tipo POST
-  //  os dados da requisição do tipo post vai no corpo da requisição
     return this.httpClient.post<Transferencia>(this.url, transferencia)
   }
-  onEditar(transferencia: Transferencia):Observable<Transferencia>{
-    return  this.httpClient.put<Transferencia>(`${this.url}/${transferencia.id}`, transferencia)
+  //editar
+  editar(transferencia: Transferencia, idTransferencia: number):Observable<Transferencia>{
+    this.hidratar(transferencia);
+    return  this.httpClient.put<Transferencia>(`${this.url}/${idTransferencia}`, transferencia)
   }
-
+  //deletar
   deletar(transferencia: Transferencia):Observable<Transferencia>{
     return this.httpClient.delete<Transferencia>(`${this.url}/${transferencia.id}`)
   }

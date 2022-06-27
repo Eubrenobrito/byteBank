@@ -1,27 +1,17 @@
 
-
-<section  class="titulo" *ngIf="mostrarForm"></section>
-<div *ngIf="!!mostrarForm">
-  <div routerLinkActive="ativo">
-  <label class="form-field__label" for="valor">Valor</label>
-  <input class="form-field__input" autocomplete="off" id="valor" type="number" name="valor">
-  </div>
-  <div class="form-field">
-    <label class="form-field__label" for="destino">Destino</label>
-    <input class="form-field__input" autocomplete="off" id="destino" type="text" name="destino">
-  </div>
-  <td><button >atualizar</button></td>
+<div *ngIf="estaEditando">
+  <app-nova-transferencia (aoTransferir)="transferenciaCompleta()" [editData]="transferenciaClicada"></app-nova-transferencia>
 </div>
-
-
 
 <section class="container">
   <h2>Transferências</h2>
 <table class="tabela">
     <thead class="tabela__cabecalho">
     <th class="tabela__cabecalho__conteudo">Data</th>
-    <th class="tabela__cabecalho__conteudo tabela__conteudo--danger">Valor</th>
+    <th class="tabela__cabecalho__conteudo">Valor</th>
     <th class="tabela__cabecalho__conteudo">Destino</th>
+    <th class="tabela__cabecalho__conteudo">Ações</th>
+
     </thead>
 <!--    <tbody *ngIf="!!transferencias; else quantoListaVazia">-->
     <tbody *ngIf="transferencias?.length; else quandoListaVazia">
@@ -32,7 +22,8 @@
           <td class="tabela__conteudo"> {{item.data | date:"short"}}</td>
           <td class="tabela__conteudo"> {{item.valor | currency}}
           <td class="tabela__conteudo"> {{item.destino}}</td>
-          <td><button mat-icon-button (click)="onMostrarForm()"><mat-icon>build</mat-icon></button></td>
+
+          <td><button mat-icon-button (click)="aoEditar(item)"><mat-icon>build</mat-icon></button></td>
           <td><button mat-icon-button (click)="delete(item)"><mat-icon>delete</mat-icon></button></td>
         </tr>
     </tbody>
